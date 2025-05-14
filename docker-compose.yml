@@ -1,81 +1,44 @@
-version: "3.9"
+version: '3.9'
+
 services:
   frontend:
     build:
       context: ./frontend
       dockerfile: DockerfileFrontendRECUC
+    container_name: frontendRECUC
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      - backend
+      - '5173:5173'
     networks:
-      - app-network
+      - redwebRECUC
 
   backend:
     build:
       context: ./backend
       dockerfile: DockerfileBackendRECUC
+    container_name: backendRECUC
     ports:
-      - "8000:8000"
-    volumes:
-      - ./backend:/app
-    depends_on:
-      - database
+      - '8000:8000'
+    env_file:
+      - ../.env
     networks:
-      - app-network
-    command: >
-      sh -c "
-      composer install &&
-      php -S 0.0.0.0:8000 -t public"
-  
+      - redwebRECUC
+
   database:
     image: mysql:8.0
+    container_name: databaseRECUC
+    restart: unless-stopped
     ports:
-      - "3306:3306"
+      - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: RECUC_BD
-      MYSQL_USER: alumnoDAW
-      MYSQL_PASSWORD: passRECUC
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - database_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
-      - app-network
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: database
-      PMA_USER: alumnoDAW
-      PMA_PASSWORD: passRECUC
-    depends_on:
-      - database
-    networks:
-      - app-network
-
-  web:
-    build:
-      context: ./web
-      dockerfile: DockerfileWebRECUC
-    ports:
-      - "80:80"
-    depends_on:
-      - frontend
-      - backend
-    networks:
-      - app-network
+      - redwebRECUC
 
 networks:
-  app-network:
+  redwebRECUC:
     driver: bridge
-
-volumes:
-  database_data:

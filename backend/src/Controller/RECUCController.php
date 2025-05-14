@@ -2,19 +2,28 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
+use Doctrine\DBAL\Connection;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RECUCController
+class RECUCController extends AbstractController
 {
-    #[Route('/api/db', name: 'get_db')]
+    private Connection $conn;
+
+    public function __construct(Connection $conn)
+    {
+        $this->conn = $conn;
+    }
+
+    #[Route('/api/recuc', name: 'api_recuc')]
     public function index(): JsonResponse
     {
         $sql = 'SELECT fraseRECUC FROM secretosRECUC LIMIT 1';
-        $result = $this->connection->fetchOne($sql);
-        if (!$result) {
-            return $this->json(['message' => '¡No se encontraron mensajes en la base de datos!']);
-        }
-        return $this->json(['message' => 'Symfony de Carlos Morillas Delgado Responde a la llamada de React, respuesta de la BD: ' . $result]);
+        $frase = $this->conn->fetchOne($sql);
+
+        return $this->json([
+            'message' => 'Backend operativo, respuesta de la BD: ' . $frase,
+        ]);
     }
 }
