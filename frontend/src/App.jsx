@@ -1,22 +1,18 @@
 import { useEffect, useState } from 'react';
-
+import './App.css'
 function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    fetch(import.meta.env.VITE_API_URL)
-      .then(res => res.json())
-      .then(data => setMessage(data.message))
-      .catch(() => setMessage('Error al conectar con la API'));
+ const [message, setMessage] = useState('');
+ useEffect(() => {
+  fetch('/api/db')
+    .then((res) => res.json())
+    .then((data) => setMessage(data.message));
   }, []);
-
-  return (
-    <div style={{ padding: 20 }}>
-      <h1>Frontend en React de Carlos Morillas Delgado</h1>
-      <p>Esta aplicación se conecta al backend de Symfony y muestra un mensaje desde la base de datos:</p>
-      <strong>{message || 'Recuperando datos...'}</strong>
-    </div>
-  );
+ return (
+  <div>
+    <h1>Frontend en React de CarlosMorillasDelgado</h1>
+    <p>Esta aplicación se conecta al backend de Symfony pidiéndole una respuesta</p>
+    <p>respuesta del Backend: {message || 'Cargando el mensaje del backend...'}</p>
+  </div>
+ );
 }
-
 export default App;
