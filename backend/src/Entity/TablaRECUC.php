@@ -3,7 +3,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\Table(name: "secretosRECUC")]
-class TablaRECUC
+class TablaRECUC 
 {
  #[ORM\Id]
  #[ORM\GeneratedValue]
@@ -15,11 +15,11 @@ class TablaRECUC
  {
  return $this->id;
  }
- public function getFraseRECUC(): string
+ public function getfraseRECUC(): string
  {
  return $this->fraseRECUC;
  }
- public function setFraseRECUC(string $fraseRECUC): self
+ public function setfraseRECUC(string $fraseRECUC): self
  {
  $this->fraseRECUC = $fraseRECUC;
  return $this;

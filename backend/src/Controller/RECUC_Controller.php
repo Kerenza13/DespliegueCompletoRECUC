@@ -15,11 +15,11 @@ class RECUC_Controller extends AbstractController
  public function index(): JsonResponse
  {
  // Consulta para recuperar el primer mensaje de la tabla "secretosRECUC"
- $sql = 'SELECT fraseRECUS FROM secretosRECUS LIMIT 1';
+ $sql = 'SELECT content FROM secretosRECUC LIMIT 1';
  $result = $this->connection->fetchOne($sql);
  // Si no hay mensaje en la BD, devolver un mensaje de error
  if (!$result) {
- return $this->json(['message' => 'No messages found in the database!']);
+ return $this->json(['message' => 'No secretosRECUC found in the database!']);
  }
  else{
 $result = 'Backend Operativo, respuesta de la BD: ' . $result;
