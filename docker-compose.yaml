@@ -4,78 +4,77 @@ services:
       context: ./frontend
       dockerfile: DockerfileFrontendRECUC
     ports:
-      - "3000:3000"
+     - "3000:3000"
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+     - ./frontend:/app
+     - /app/node_modules
     environment:
-      - CHOKIDAR_USEPOLLING=true
+     - CHOKIDAR_USEPOLLING=true # Activa polling para asegurar detección de cambios en Docker
     depends_on:
-      - backend
+     - backend
     networks:
-      - app-network
+     - app-network
 
   backend:
     build:
       context: ./backend
       dockerfile: DockerfileBackendRECUC
     ports:
-      - "8000:8000"
+     - "8000:8000"
     volumes:
-      - ./backend:/app
+     - ./backend:/app
     depends_on:
-      - database
+     - database
     command: >
       sh -c "
       composer install &&
       composer show doctrine/dbal &&
       php -S 0.0.0.0:8000 -t public"
     networks:
-      - app-network
+     - app-network
 
   database:
     image: mysql:8.0
     ports:
-      - "3306:3306"
+     - "33065:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: 
       MYSQL_DATABASE: myapp
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 
     volumes:
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - database_data:/var/lib/mysql
+     - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+     - database_data:/var/lib/mysql
     networks:
-      - app-network
+     - app-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "8080:80"
+     - "8080:80"
     environment:
       PMA_HOST: database
-      PMA_USER: user
-      PMA_PASSWORD: password
+      PMA_USER: root
+      PMA_PASSWORD: 
     depends_on:
-      - database
+     - database
     networks:
-      - app-network
+     - app-network
 
   web:
     build:
-      context: ./nginx
+      context: ./web
       dockerfile: DockerfileWebRECUC
     ports:
-      - "80:80"
+     - "8020:80"
     depends_on:
-      - frontend
-      - backend
+     - frontend
+     - backend
     networks:
-      - app-network
+     - app-network
 
 networks:
   app-network:
     driver: bridge
-
 volumes:
   database_data:
