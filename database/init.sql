@@ -1,5 +1,5 @@
-CREATE TABLE messages (
+CREATE TABLE secretosRECUC (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    content VARCHAR(255) NOT NULL
+    fraseRECUC VARCHAR(255) NOT NULL
 );
-INSERT INTO messages (content) VALUES ('La base de datos responde, Holaaa!');
+INSERT INTO secretosRECUC (fraseRECUC) VALUES (' La base de datos responde, buenos días Carlos MD!');

@@ -19,8 +19,8 @@ class RECUCController extends AbstractController
     #[Route('/api/db', name: 'get_db')]
     public function index(): JsonResponse
     {
-        // Consulta para recuperar el primer mensaje de la tabla "messages"
-        $sql = 'SELECT content FROM messages LIMIT 1';
+        // Consulta para recuperar el primer mensaje de la tabla "secretosRECUC"
+        $sql = 'SELECT fraseRECUC FROM secretosRECUC LIMIT 1';
         $result = $this->connection->fetchOne($sql);
         // Si no hay mensaje en la BD, devolver un mensaje de error
         if (!$result) {

@@ -40,8 +40,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 
       MYSQL_DATABASE: myapp
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     volumes:
      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
      - database_data:/var/lib/mysql
@@ -54,8 +54,8 @@ services:
      - "8080:80"
     environment:
       PMA_HOST: database
-      PMA_USER: root
-      PMA_PASSWORD: 
+      PMA_USER: user
+      PMA_PASSWORD: password 
     depends_on:
      - database
     networks:
