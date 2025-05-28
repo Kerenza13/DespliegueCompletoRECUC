@@ -16,7 +16,7 @@ class RECUCController extends AbstractController
         $this->connection = $connection;
     }
 
-    #[Route('/api/db', name: 'get_db')]
+    #[Route('/api/RECUC', name: 'get_db')]
     public function index(): JsonResponse
     {
         // Consulta para recuperar el primer mensaje de la tabla "secretosRECUC"
